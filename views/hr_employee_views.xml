@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_form_inherit_aura" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.aura</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Aura ERP / Telegram" name="aura_telegram_settings">
+                    <group>
+                        <group string="Telegram Connectivity Settings">
+                            <field name="is_telegram_linked" invisible="1"/>
+                            <field name="telegram_chat_id" invisible="not is_telegram_linked"/>
+                            
+                            <div class="o_horizontal_separator" invisible="is_telegram_linked">
+                                <p class="text-muted">
+                                    <i class="fa fa-info-circle me-1"/> 
+                                    Link this employee account to the **Aura ERP Platform** to start sending invoices and analyzing them with AI.
+                                </p>
+                                <button name="action_generate_telegram_link" 
+                                        type="object" 
+                                        string="Connect Telegram Platform" 
+                                        class="btn-primary" 
+                                        icon="fa-paper-plane"/>
+                            </div>
+
+                            <div invisible="not is_telegram_linked">
+                                <span class="badge rounded-pill text-bg-success p-2 mb-2" style="font-size: 14px;">
+                                    <i class="fa fa-link me-1"/> Aura ERP Platform Linked
+                                </span>
+                                <div class="mt-2">
+                                    <p class="text-muted small">
+                                        This account is now synchronized with the **Aura ERP Platform**. 
+                                        The employee can send invoice photos directly to the platform for processing.
+                                    </p>
+                                    <button name="action_disconnect_telegram" 
+                                            type="object" 
+                                            string="Unlink Platform" 
+                                            class="btn btn-outline-danger" 
+                                            icon="fa-chain-broken"
+                                            confirm="Are you sure you want to unlink this employee from the Aura Platform? This will delete all synchronization data."/>
+                                </div>
+                            </div>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

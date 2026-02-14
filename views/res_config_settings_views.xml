@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_aura_config" model="ir.actions.act_window">
+        <field name="name">Aura Setup</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'odoo_connector'}</field>
+    </record>
+
+    <menuitem id="menu_aura_root" 
+              name="Aura ERP" 
+              web_icon="odoo_connector,static/description/icon.png" 
+              action="action_aura_config" 
+              sequence="1"/>
+
+    <record id="view_res_config_settings_aura_status" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.aura.status</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Aura ERP" name="odoo_connector">
+                    <block title="Aura Integration Status" name="aura_status_block">
+                        <field name="is_aura_connected" invisible="1"/>
+
+                        <setting string="Aura Cloud Connection" help="Link your Odoo instance with Aura AI platform.">
+                            <div class="mt16">
+                                
+                                <div invisible="is_aura_connected">
+                                    <div class="mb-3">
+                                        <label for="aura_pairing_code" string="Pairing Code" class="fw-bold"/>
+                                        <field name="aura_pairing_code" 
+                                               placeholder="Enter 6-digit code (e.g. AU-2026)" 
+                                               class="w-50 d-block mt-1"/>
+                                        <p class="text-muted small">Get this code from your Aura Dashboard.</p>
+                                    </div>
+                                    
+                                    <button name="action_verify_and_connect" 
+                                            type="object" 
+                                            string="Verify &amp; Connect" 
+                                            class="btn-primary" 
+                                            icon="fa-plug"/>
+                                    <p class="text-danger mt-2 fw-bold">
+                                        <i class="fa fa-exclamation-triangle me-1"/> Status: Disconnected
+                                    </p>
+                                </div>
+
+                                <div invisible="not is_aura_connected">
+                                    <span class="badge rounded-pill text-bg-success p-2 mb-3">
+                                        <i class="fa fa-check-circle me-1"/> Successfully Connected to Aura
+                                    </span>
+                                    
+                                    <div class="mt-2">
+                                        <button name="action_open_aura_dashboard" 
+                                                type="object" 
+                                                string="Open Aura Dashboard" 
+                                                class="btn btn-primary me-2" 
+                                                icon="fa-external-link"/>
+                                                
+                                        <button name="action_disconnect_aura" 
+                                                type="object" 
+                                                string="Disconnect" 
+                                                class="btn btn-outline-danger" 
+                                                icon="fa-unlink"
+                                                confirm="Are you sure you want to disconnect Aura? This will revoke all API tokens!"/>
+                                    </div>
+                                    
+                                    <p class="text-muted mt-3">
+                                        Your AI agents are now active. Expenses and Collections are being synced.
+                                    </p>
+                                </div>
+                                
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>
