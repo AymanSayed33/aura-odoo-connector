@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_form_inherit_aura" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.aura</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+
+            <!-- إضافة الحقول غير المرئية في بداية الفورم -->
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="is_telegram_linked" invisible="1" />
+                <field name="telegram_chat_id" invisible="1" />
+            </xpath>
+
+            <!-- إضافة أزرار Aura في الـ Header بجانب أزرار Save/Discard -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+
+                <!-- زر "غير مرتبط" - يظهر لما يكون مفيش ربط -->
+                <button name="action_generate_telegram_link"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-telegram"
+                    invisible="is_telegram_linked"
+                    title="Connect to Aura Platform">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text text-muted">Aura</span>
+                        <span class="o_stat_text">Not Linked</span>
+                    </div>
+                </button>
+
+                <!-- زر "مرتبط" - يظهر لما يكون في ربط -->
+                <button name="action_disconnect_telegram"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-telegram"
+                    invisible="not is_telegram_linked"
+                    title="Disconnect from Aura Platform"
+                    confirm="Are you sure you want to unlink this employee from the Aura Platform?">
+                    <div class="o_stat_info o_field_widget">
+                        <span class="o_stat_text text-success fw-bold">Aura</span>
+                        <span class="o_stat_text text-success">Linked ✓</span>
+                    </div>
+                </button>
+
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
